@@ -1,0 +1,11 @@
+{
+    "name": "maeno/test-codeigniter",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Chihiro Maeno",
+            "email": "chirokee0120@gmail.com"
+        }
+    ],
+    "require": {}
+}
