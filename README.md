@@ -31,3 +31,20 @@ $ php composer-setup.php
 $ php -r "unlink('composer-setup.php');"
 $ mv composer.phar /usr/local/bin/composer
 ```
+
+# Usage
+
+## git clone
+- `git clone`
+- `ln -s "index.php", ".htaccess"`
+## Apache　Setting
+- Edit　/etc/hosts (ドメインの追加)
+- Edit httpd.conf (mod_rewriteの許可)
+
+## SELinux
+
+## Postgres
+- restore
+
+
+
