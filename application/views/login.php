@@ -6,7 +6,7 @@
 
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('login'); ?>
+<?php echo form_open('login/do_login'); ?>
 
 <h5>Id</h5>
 <?php echo form_input($id_form); ?>

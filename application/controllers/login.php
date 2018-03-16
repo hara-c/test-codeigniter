@@ -23,5 +23,22 @@
 
                 $this->load->view('login',$data);
         }
+
+        public function do_login(){
+            $id = $this->input->post('id');
+            $pass = $this->input->post('password');
+
+            $this->load->library('user');
+            if( $this->user->is_valid($id, $pass) ) {
+                # do login
+                $this->load->helper('url');
+                redirect('research/lists', 'location');
+            } else {
+                # TODO: go login with error_msg
+                echo 'NG';
+            }
+        }
+
+
     }
 ?>
