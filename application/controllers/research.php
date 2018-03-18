@@ -6,7 +6,10 @@
             $type = 'client';
             $user_id = 1;
             $lists = $this->researches->get_show_lists($type, $user_id);
-            var_dump($lists);
+            $data['show_lists'] = $lists;
+
+            $this->load->view('research/client', $data);
+
 
         }
     }
