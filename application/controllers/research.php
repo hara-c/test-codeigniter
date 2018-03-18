@@ -1,8 +1,12 @@
 <?php
     class Research extends CI_Controller {
-        # list is Reserved word , TODO? method -> list
         public function lists(){
-            echo 'ResearchList';
+
+            $this->load->library('researches');
+            $type = 'client';
+            $user_id = 1;
+            $lists = $this->researches->get_show_lists($type, $user_id);
+            var_dump($lists);
+
         }
     }
-?>
