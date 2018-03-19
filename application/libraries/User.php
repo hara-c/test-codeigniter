@@ -15,22 +15,24 @@ class User {
         $CI->load->model('Users_model');
         $user = $CI->Users_model->is_exist($id, $pass);
         if ($user) {
-            $this->_set_user_type($CI, $user->user_type_id);
+            $this->_set_user_session($CI, $user->user_type_id, $user->id);
             return 1;
         } else {
             return 0;
         }
     }
 
-    public function get_user_type() {
+    public function get_user_info() {
         $CI =& get_instance();
-        $id = $CI->session->userdata('user_type_id');
-        return self::USER_TYPE[$id];
+        $id = $CI->session->userdata('user_id');
+        $type_id = $CI->session->userdata('user_type_id');
+        return array('id' => $id, 'type' => self::USER_TYPE[$type_id]);
     }
 
-    private function _set_user_type($CI, $type) {
+    private function _set_user_session($CI, $type, $id) {
         #set session
         $CI->session->set_userdata('user_type_id', $type);
+        $CI->session->set_userdata('user_id', $id);
     }
 
 }
