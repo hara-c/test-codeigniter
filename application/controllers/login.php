@@ -30,7 +30,7 @@
 
             $this->load->library('user');
 
-            if( $this->user->is_valid($id, $pass) ) {
+            if( $this->user->is_valid_and_set_session($id, $pass) ) {
                 # do login
                 $this->load->helper('url');
                 redirect('research', 'location');
