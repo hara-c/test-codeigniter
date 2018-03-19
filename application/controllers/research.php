@@ -1,6 +1,6 @@
 <?php
     class Research extends CI_Controller {
-        public function lists(){
+        public function index(){
 
             $this->load->library('researches');
             $type = 'client';
@@ -9,7 +9,5 @@
             $data['show_lists'] = $lists;
 
             $this->load->view('research/client', $data);
-
-
         }
     }

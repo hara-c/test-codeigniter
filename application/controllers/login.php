@@ -33,7 +33,7 @@
             if( $this->user->is_valid($id, $pass) ) {
                 # do login
                 $this->load->helper('url');
-                redirect('research/lists', 'location');
+                redirect('research', 'location');
             } else {
                 # TODO: go login with error_msg
                 echo 'NG';
