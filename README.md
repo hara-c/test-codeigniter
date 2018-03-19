@@ -3,14 +3,15 @@ This is test.
 # Requirements
 - PHP5.6
 ```
-# yum -y install epel-release
-# rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-# yum -y install --enablerepo=remi,remi-php56 php php-common
+$ wget http://jp2.php.net/get/php-5.6.34.tar.gz/from/jp.php.net/mirror -O php-5.6.34.tar.gz
+$ tar xvzf php-5.6.34.tar.gz
+$ cd php-5.6.34
+$ ./configure --with-apxs2 --enable-mbstring --enable-zend-multibyte --with-pgsql 
+$ make
+$ make install
 
-$ php -v                                                                                                                                で [/var/www/apps/test-codeigniter]+[master]
-PHP 5.6.34 (cli) (built: Feb 28 2018 10:16:58) 
-Copyright (c) 1997-2016 The PHP Group
-Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+# php.ini を用意
+$ mv ./php.ini-development /usr/local/lib/php.ini   
 ```
 
 - Apache2.4
@@ -39,7 +40,7 @@ $ mv composer.phar /usr/local/bin/composer
 - `ln -s "index.php", ".htaccess"`
 ## Apache　Setting
 - Edit　/etc/hosts (ドメインの追加)
-- Edit httpd.conf (mod_rewriteの許可)
+- Edit httpd.conf (mod_rewriteの許可 / Document Root の変更/　PHP利用の設定)
 
 ## SELinux
 
