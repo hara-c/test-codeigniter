@@ -15,37 +15,40 @@
 
         public function create() {
 
-            $this->load->helper('form');
+            $this->load->library('user');
+            if (! $this->user->is_enable_create_user()) {
+                echo('NG');
+            } else {
+                $this->load->helper('form');
 
-            $name_form = array(
-                'name'      => 'name',
-                'id'        => 'name',
-                'maxlength' => '30',
-                'size'      => '30',
-            );
-            $reword_form = array(
-                'name'      => 'reword',
-                'id'        => 'reword',
-                'maxlength' => '30',
-                'size'      => '30',
+                $name_form = array(
+                    'name'      => 'name',
+                    'id'        => 'name',
+                    'maxlength' => '30',
+                    'size'      => '30',
                 );
-            $max_form = array(
-                'name'      => 'max',
-                'id'        => 'max',
-                'maxlength' => '2',
-                'size'      => '5',
+                $reword_form = array(
+                    'name'      => 'reword',
+                    'id'        => 'reword',
+                    'maxlength' => '30',
+                    'size'      => '30',
+                    );
+                $max_form = array(
+                    'name'      => 'max',
+                    'id'        => 'max',
+                    'maxlength' => '2',
+                    'size'      => '5',
+                    );
+
+                $data = array(
+                    'name_form'   => $name_form,
+                    'reword_form' => $reword_form,
+                    'max_form'    => $max_form,
                 );
 
-            $data = array(
-                'name_form'   => $name_form,
-                'reword_form' => $reword_form,
-                'max_form'    => $max_form,
-            );
 
-
-            # TODO: CHECK SESSION
-#            $this->load->view('header', $data);
-            $this->load->view('research/create', $data);
+                $this->load->view('research/create', $data);
+            }
         }
 
         public function do_create() {

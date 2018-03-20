@@ -2,6 +2,7 @@
 
 class User {
 
+    # TEMP
     const USER_TYPE = array(
         '1' => 'ADMIN',
         '2' => 'CLIENT',
@@ -31,6 +32,11 @@ class User {
         $info['type'] = self::USER_TYPE[$CI->session->userdata('user_type_id')];
 
         return $info;
+    }
+
+    public function is_enable_create_user(){
+        $user_info = $this->get_current_user_info();
+        return (!strcmp($user_info['type'], 'ADMIN') || !strcmp($user_info['type'], 'CLIENT') ) ? 1 : 0;
     }
 
     private function _set_user_session($CI, $type, $id) {
