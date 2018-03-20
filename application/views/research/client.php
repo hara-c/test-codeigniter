@@ -1,20 +1,10 @@
-<html>
-<head>
-<title>My Form</title>
-</head>
-<body>
+<h2> Hello , Client
 
 <h5>ResearchList</h5>
-<?php foreach($show_lists as $research): ?>
-<p>
-<?php foreach($research as $key => $value):?>
-<?php echo ("$key => $value"."/") ?>
+<table>
+<tr><th>Research->name</th><th>Research->is_done</th></tr>
+<?php foreach($show_lists as $row): ?>
+<tr><?php echo ("<td>".$row["name"]."</td><td>".$row["is_done"]."</td>")?></tr>
 <?php endforeach; ?>
-</p>
-<?php endforeach; ?>
-
-</form>
-
-</body>
-</html>
+</table>
 
