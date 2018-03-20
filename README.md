@@ -50,13 +50,13 @@ $ mv ./php.ini-development /usr/local/lib/php.ini
 ```
 
 - Apacheの設定を編集する
--- `/etc/httpd/conf/httpd.conf`に下記を追加
+  - `/etc/httpd/conf/httpd.conf`に下記を追加
 ```
 <FilesMatch \.php$>
     SetHandler application/x-httpd-php
 </FilesMatch>
 ```
-##Postgres9.2
+## Postgres9.2
 - インストール
 ```
 # yum -y install postgresql-server
