@@ -11,8 +11,7 @@ class Researches {
             $lists = $CI->researches_model->get_list();
             foreach($lists as $l) {
                 $name = $l->name;
-                # TEMP
-                $show_lists['client'][] = array('name' => $name, 'is_done' => $l->is_done == FALSE ? 'DONE' : 'NOT');
+                $show_lists['client'][] = array('name' => $name, 'is_done' => $l->is_done ? 'DONE' : 'NOT');
                 $show_lists['monitor'][] = array('name' => $name, 'create_user_id' => $l->create_user_id);
             }
 
