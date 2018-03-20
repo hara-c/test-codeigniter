@@ -23,4 +23,8 @@
             return $lists;
         }
 
+        function insert_research($research) {
+            $this->db->insert('researches', $research);
+        }
+
     }

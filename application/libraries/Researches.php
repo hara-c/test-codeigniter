@@ -53,5 +53,13 @@ class Researches {
         return $show_lists;
     }
 
+    public function create_research($research) {
+
+    var_dump($research);
+        $CI =& get_instance();
+        $CI->load->model('researches_model');
+        $CI->researches_model->insert_research($research);
+    }
+
 }
 
