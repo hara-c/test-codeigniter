@@ -22,11 +22,15 @@ class User {
         }
     }
 
-    public function get_user_info() {
+    public function get_current_user_info() {
         $CI =& get_instance();
         $id = $CI->session->userdata('user_id');
-        $type_id = $CI->session->userdata('user_type_id');
-        return array('id' => $id, 'type' => self::USER_TYPE[$type_id]);
+        # fetch db
+        $CI->load->model('Users_model');
+        $info = $CI->Users_model->get_user_info_by_id($id);
+        $info['type'] = self::USER_TYPE[$CI->session->userdata('user_type_id')];
+
+        return $info;
     }
 
     private function _set_user_session($CI, $type, $id) {
