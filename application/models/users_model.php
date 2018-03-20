@@ -7,10 +7,11 @@
         }
 
         function is_exist($id, $pass) {
-            $this->db->where('login_id', $id);
-            $this->db->where('password', $pass);
-            $this->db->from('users');
-            return $this->db->count_all_results() ? 1 : 0;
+            $query = $this->db->get_where('users', array('login_id'=>$id, 'password'=>$pass));
+
+            $row = $query->row(0, 'object');
+            return $row;
         }
+
     }
 
