@@ -13,5 +13,9 @@
             return $row;
         }
 
+        function get_user_info_by_id($id) {
+            $query = $this->db->get_where('users', array('id' => $id));
+            return $query->row(0, 'array');
+        }
     }
 
