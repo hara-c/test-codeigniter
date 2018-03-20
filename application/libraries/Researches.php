@@ -2,16 +2,15 @@
 
 class Researches {
 
-    public function get_show_lists ($user_id){
+    public function get_show_lists ($user){
         $CI =& get_instance();
         $CI->load->model('researches_model');
-        $CI->load->library('user');
-        $user_type = $CI->user->get_user_type();
-        if (!strcmp($user_type, 'ADMIN')) {
+        if (!strcmp($user['type'], 'ADMIN')) {
             # TODO
-        } elseif( !strcmp($user_type, 'CLIENT') ) {
-            return $CI->researches_model->get_listsa($user_id);
-        } elseif( !strcmp($user_type, 'MONITOR') ) {
+        } elseif( !strcmp($user['type'], 'CLIENT') ) {
+            return $CI->researches_model->get_list_by_user_id($user['id']);
+        } elseif( !strcmp($user['type'], 'MONITOR') ) {
+            return $CI->researches_model->get_valid_list();
             # TODO
         } else {
             #TODO
