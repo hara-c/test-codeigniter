@@ -6,14 +6,12 @@
             parent::__construct();
         }
 
-        function get_list_by_user_id($user_id) {
-            $this->db->where('create_user_id', $user_id);
-            $query = $this->db->get('researches');
-            $lists = array();
-            foreach ($query->result() as $row){
-                $lists[] = array('name' => $row->name, 'is_done' => $row->is_done);
+        function get_list($user_id = NULL) {
+            if ($user_id) {
+               $this->db->where('create_user_id', $user_id);
             }
-            return $lists;
+            $query = $this->db->get('researches');
+            return $query->result();
         }
 
         function get_valid_list() {
