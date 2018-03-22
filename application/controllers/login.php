@@ -5,7 +5,6 @@
             $this->load->helper(array('form', 'url'));
             $this->load->library(array('form_validation', 'user'));
 
-
             if($this->form_validation->run('login') == TRUE) {
                 $id = $this->input->post('id');
                 $pass = $this->input->post('password');
