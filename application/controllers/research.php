@@ -21,6 +21,8 @@
             } else {
                 $this->load->helper('form');
 
+
+                # TEMP
                 $name_form = array(
                     'name'      => 'name',
                     'id'        => 'name',
