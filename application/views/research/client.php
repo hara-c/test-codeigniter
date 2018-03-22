@@ -7,3 +7,4 @@
 <?php endforeach; ?>
 </table>
 
+<a href='research/create'>CREATE RESEARCH</a>

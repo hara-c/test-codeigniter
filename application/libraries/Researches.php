@@ -7,9 +7,7 @@ class Researches {
         # load
         $CI =& get_instance();
         $CI->load->model('researches_model');
-        $CI->load->model('rewords_model');
 
-        $rewords = $CI->rewords_model->get_whole_rewords();
         $show_lists = array();
 
         if (!strcmp($user['type'], 'ADMIN')) {
@@ -21,7 +19,7 @@ class Researches {
                 $show_lists['client'][] = array(
                     'name'         => $name,
                     'is_done'      => $l->is_done ? 'DONE' : 'NOT',
-                    'reword'       => $rewords[$l->id],
+                    'reword'       => $l->reword,
                     'created_date' => $l->created_date
                 );
 
@@ -30,12 +28,14 @@ class Researches {
 
         } elseif( !strcmp($user['type'], 'CLIENT') ) {
 
+            $count = $this->_get_count();
             $lists = $CI->researches_model->get_list($user['id']);
             foreach($lists as $l) {
-                $show_lists['client'][] = array(
+                $id = $l->id;
+                $show_lists[] = array(
                     'name'         => $l->name,
-                    'is_done'      => $l->is_done ? 'DONE' : 'NOT',
-                    'reword'       => $rewords[$l->id],
+                    'is_done'      => isset($count[$id]) ? $count[$id] : '0', #TEMP
+                    'reword'       => $l->reword,
                     'created_date' => $l->created_date
                 );
             }
@@ -44,13 +44,32 @@ class Researches {
 
             $lists = $CI->researches_model->get_list();
             foreach($lists as $l) {
-                $show_lists[] = array('name' => $l->name, 'create_user_id' => $l->create_user_id);
+                $show_lists[] = array(
+                    'name'           => $l->name,
+                    'create_user_id' => $l->create_user_id,
+                    'reword'         => $l->reword,
+                    'is_done'        => 'DONE',
+                );
             }
 
         } else {
             #TODO
         }
         return $show_lists;
+    }
+
+    public function create_research($research) {
+
+        $CI =& get_instance();
+        $CI->load->model('researches_model');
+        $CI->researches_model->insert_research($research);
+    }
+
+    private function _get_count() {
+        $CI =& get_instance();
+        $CI->load->model('rewords_model');
+        $counts = $CI->rewords_model->get_count_by_research_id();
+        return $counts;
     }
 
 }
