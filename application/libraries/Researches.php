@@ -7,32 +7,18 @@ class Researches {
         # load
         $CI =& get_instance();
         $CI->load->model('researches_model');
+        $CI->load->model('rewords_model');
 
         $show_lists = array();
 
-        if (!strcmp($user['type'], 'ADMIN')) {
-
-            $lists = $CI->researches_model->get_list();
-            foreach($lists as $l) {
-                $name = $l->name;
-
-                $show_lists['client'][] = array(
-                    'name'         => $name,
-                    'is_done'      => $l->is_done ? 'DONE' : 'NOT',
-                    'reword'       => $l->reword,
-                    'created_date' => $l->created_date
-                );
-
-                $show_lists['monitor'][] = array('name' => $name, 'create_user_id' => $l->create_user_id);
-            }
-
-        } elseif( !strcmp($user['type'], 'CLIENT') ) {
+        if( !strcmp($user['type'], 'ADMIN') || !strcmp($user['type'], 'CLIENT') ) {
 
             $count = $this->_get_count();
-            $lists = $CI->researches_model->get_list($user['id']);
-            foreach($lists as $l) {
+            $research_lists = $CI->researches_model->get_list(!strcmp($user['type'], 'ADMIN') ? NULL : $user['id']);
+            $lists = array();
+            foreach($research_lists as $l) {
                 $id = $l->id;
-                $show_lists[] = array(
+                $lists[] = array(
                     'name'         => $l->name,
                     'is_done'      => isset($count[$id]) ? $count[$id] : '0', #TEMP
                     'reword'       => $l->reword,
@@ -40,29 +26,51 @@ class Researches {
                 );
             }
 
-        } elseif( !strcmp($user['type'], 'MONITOR') ) {
+            if (!strcmp($user['type'], 'ADMIN')){
+                $show_lists['client'] = $lists;
+            } else {
+                return $lists;
+            }
+        }
 
-            $lists = $CI->researches_model->get_list();
-            foreach($lists as $l) {
-                $show_lists[] = array(
+        if( !strcmp($user['type'], 'ADMIN') || !strcmp($user['type'], 'MONITOR') ) {
+
+            $research_lists = $CI->researches_model->get_list();
+            $paied_research_lists = $CI->rewords_model->get_paied_research($user['id']);
+            $lists = array();
+            foreach($research_lists as $l) {
+                $lists[] = array(
+                    'id'             => $l->id,
                     'name'           => $l->name,
                     'create_user_id' => $l->create_user_id,
                     'reword'         => $l->reword,
-                    'is_done'        => 'DONE',
+                    'is_done'        => in_array($l->id, $paied_research_lists),
                 );
             }
 
-        } else {
-            #TODO
+            if (!strcmp($user['type'], 'ADMIN')){
+                $show_lists['monitor'] = $lists;
+            } else {
+                return $lists;
+            }
         }
+
+
+
         return $show_lists;
-    }
+        }
 
     public function create_research($research) {
 
         $CI =& get_instance();
         $CI->load->model('researches_model');
         $CI->researches_model->insert_research($research);
+    }
+
+    public function pay_reword($user_id, $research_id) {
+        $CI =& get_instance();
+        $CI->load->model('rewords_model');
+        $CI->rewords_model->insert_reword($user_id, $research_id);
     }
 
     private function _get_count() {
