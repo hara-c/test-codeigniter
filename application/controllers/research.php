@@ -18,8 +18,8 @@
             $this->load->library(array('form_validation', 'user', 'researches'));
 
             if (! $this->user->is_enable_create_user()) {
-               # TEMP
-                echo('NG');
+                $this->user->unset_session();
+                redirect('login');
             }
 
             if($this->form_validation->run('research') == TRUE) {
