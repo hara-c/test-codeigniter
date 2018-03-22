@@ -2,26 +2,25 @@
     class Login extends CI_Controller {
         public function index(){
 
-            $this->load->helper('form');
+            $this->load->helper(array('form', 'url'));
+            $this->load->library(array('form_validation', 'user'));
 
-                $id_form = array(
-                    'name'      => 'id',
-                    'id'        => 'id',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $pass_form = array(
-                    'name'      => 'password',
-                    'id'        => 'password',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $data = array(
-                    'id_form' => $id_form,
-                    'pass_form' => $pass_form
-                );
 
-                $this->load->view('login',$data);
+            if($this->form_validation->run('login') == TRUE) {
+                echo "OK";
+                $id = $this->input->post('id');
+                $pass = $this->input->post('password');
+
+                if( $this->user->is_valid_and_set_session($id, $pass) ) {
+                    redirect('research', 'location');
+                } else {
+                    $this->load->view('login', array('login_error_msg'=>'Not Found User'))                     ;
+                }
+            } else {
+                echo "NG";
+                $this->load->view('login');
+            }
+
         }
 
         public function do_login(){

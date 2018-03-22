@@ -1,20 +1,32 @@
 <html>
 <head>
-<title>My Form</title>
+<title>Login</title>
+<style type="text/css">
+<!--
+.error {color:red; line-height:1.5;}
+-->
+</style>
 </head>
 <body>
+<h2>Login Form</h2>
 
-<?php echo validation_errors(); ?>
+<?php
+    if(isset($login_error_msg)) {
+        echo "<div class=\"error\">$login_error_msg</div>";
+    }
+?>
 
-<?php echo form_open('login/do_login'); ?>
+<?php echo form_open('login'); ?>
 
-<h5>Id</h5>
-<?php echo form_input($id_form); ?>
-
-<h5>Password</h5>
-<?php echo form_input($pass_form); ?>
-
-<div><input type="submit" value="Submit" /></div>
+<p> ID : 
+<input type = "text", name='id', value="<?php echo set_value('id'); ?>", maxlength='30', size='30'>
+<?php echo form_error('id', '<div class="error">', '</div>'); ?>
+</p>
+<p>PASSWORD : 
+<input type = "text", name='password',value="<?php echo set_value('password'); ?>", maxlength='30', size='30'>
+<?php echo form_error('password', '<div class="error">', '</div>'); ?>
+</p>
+<div><input type="submit" value="Login" /></div>
 
 </form>
 
