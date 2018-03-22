@@ -38,4 +38,11 @@
 
         }
 
+        function insert_reword($user_id, $research_id){
+            $this->db->insert('rewords', array(
+                'user_id'     => $user_id,
+                'research_id' => $research_id,
+                'paied_date'   => date("Y-m-n H:i:s"),
+            ));
+        }
     }

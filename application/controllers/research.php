@@ -70,4 +70,13 @@
  #               'max'    => $max
             ));
         }
+
+        public function execute($research_id) {
+
+            $this->load->library('researches');
+            $user_id = $this->session->userdata('user_id');
+            $this->researches->pay_reword($user_id, $research_id);
+
+        }
+
     }

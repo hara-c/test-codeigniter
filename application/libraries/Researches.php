@@ -40,6 +40,7 @@ class Researches {
             $lists = array();
             foreach($research_lists as $l) {
                 $lists[] = array(
+                    'id'             => $l->id,
                     'name'           => $l->name,
                     'create_user_id' => $l->create_user_id,
                     'reword'         => $l->reword,
@@ -64,6 +65,12 @@ class Researches {
         $CI =& get_instance();
         $CI->load->model('researches_model');
         $CI->researches_model->insert_research($research);
+    }
+
+    public function pay_reword($user_id, $research_id) {
+        $CI =& get_instance();
+        $CI->load->model('rewords_model');
+        $CI->rewords_model->insert_reword($user_id, $research_id);
     }
 
     private function _get_count() {
