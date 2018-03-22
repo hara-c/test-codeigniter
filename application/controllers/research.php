@@ -2,7 +2,7 @@
     class Research extends CI_Controller {
         public function index(){
 
-            $this->load->library(array('researches', 'user');
+            $this->load->library(array('researches', 'user'));
             $user_info = $this->user->get_current_user_info();
             $lists = $this->researches->get_show_lists($user_info);
             $data['show_lists'] = $lists;
