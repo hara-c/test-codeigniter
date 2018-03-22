@@ -17,39 +17,12 @@
 
             $this->load->library('user');
             if (! $this->user->is_enable_create_user()) {
+               # TEMP
                 echo('NG');
             } else {
                 $this->load->helper('form');
 
-
-                # TEMP
-                $name_form = array(
-                    'name'      => 'name',
-                    'id'        => 'name',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $reword_form = array(
-                    'name'      => 'reword',
-                    'id'        => 'reword',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                    );
-                $max_form = array(
-                    'name'      => 'max',
-                    'id'        => 'max',
-                    'maxlength' => '2',
-                    'size'      => '5',
-                    );
-
-                $data = array(
-                    'name_form'   => $name_form,
-                    'reword_form' => $reword_form,
-                    'max_form'    => $max_form,
-                );
-
-
-                $this->load->view('research/create', $data);
+                $this->load->view('research/create');
             }
         }
 
