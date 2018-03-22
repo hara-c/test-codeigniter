@@ -28,4 +28,14 @@
                 return $lists;
         }
 
+        function get_paied_research($user_id) {
+            $query = $this->db->get_where('rewords', array('user_id' => $user_id));
+            $lists = array();
+            foreach ($query->result() as $row) {
+                $lists[] = $row->research_id;
+            }
+            return $lists;
+
+        }
+
     }
