@@ -18,11 +18,11 @@
 
 <?php echo form_open('login'); ?>
 
-<p> ID : 
+<p> ID : (trim|required|alpha_dash|xss_clean)
 <input type = "text", name='id', value="<?php echo set_value('id'); ?>", maxlength='30', size='30'>
 <?php echo form_error('id', '<div class="error">', '</div>'); ?>
 </p>
-<p>PASSWORD : 
+<p>PASSWORD : (trim|required|alpha_dash|xss_clean)
 <input type = "text", name='password',value="<?php echo set_value('password'); ?>", maxlength='30', size='30'>
 <?php echo form_error('password', '<div class="error">', '</div>'); ?>
 </p>
