@@ -5,9 +5,9 @@
 <?php foreach($show_lists as $row): ?>
 <tr><?php
       #TEMP
-        $status = $row['is_done'] ?  'DONE' : '<a href=\'research/execute/'.$row['id'].'\' >DO!</a>';
+        $status = $row['is_done'] ?  'DONE' : anchor('research/execute/'.$row['id'],'DO!');
 
-        echo ("<td>".$row["name"]."</td><td>".$row["create_user_id"]."</td><td>".$row['reword'].'</td><td>'.$status.'</td>')
+        echo ("<td>".$row["name"]."</td><td>".$row["create_user_id"]."</td><td>".$row['reword'].'</td><td>i',$status,'</td>')
 
 ?></tr>
 <?php endforeach; ?>

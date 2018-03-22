@@ -11,4 +11,4 @@
 <?php endforeach; ?>
 </table>
 
-<a href='research/create'>CREATE RESEARCH</a>
+<?php echo anchor('research/create', 'CREATE RESEARCH'); ?>
