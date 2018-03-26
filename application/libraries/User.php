@@ -39,6 +39,11 @@ class User {
         return (!strcmp($user_info['type'], 'ADMIN') || !strcmp($user_info['type'], 'CLIENT') ) ? 1 : 0;
     }
 
+    public function unset_session(){
+        $CI =& get_instance();
+        $CI->session->sess_destroy();
+    }
+
     private function _set_user_session($CI, $type, $id) {
         #set session
         $CI->session->set_userdata('user_type_id', $type);

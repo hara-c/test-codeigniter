@@ -2,8 +2,8 @@
     class Research extends CI_Controller {
         public function index(){
 
-            $this->load->library('researches');
-            $this->load->library('user');
+            $this->load->helper('url');
+            $this->load->library(array('researches', 'user'));
             $user_info = $this->user->get_current_user_info();
             $lists = $this->researches->get_show_lists($user_info);
             $data['show_lists'] = $lists;
@@ -15,67 +15,34 @@
 
         public function create() {
 
-            $this->load->library('user');
+            $this->load->helper(array('form', 'url'));
+            $this->load->library(array('form_validation', 'user', 'researches'));
+
             if (! $this->user->is_enable_create_user()) {
-                echo('NG');
-            } else {
-                $this->load->helper('form');
-
-
-                # TEMP
-                $name_form = array(
-                    'name'      => 'name',
-                    'id'        => 'name',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $reword_form = array(
-                    'name'      => 'reword',
-                    'id'        => 'reword',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                    );
-                $max_form = array(
-                    'name'      => 'max',
-                    'id'        => 'max',
-                    'maxlength' => '2',
-                    'size'      => '5',
-                    );
-
-                $data = array(
-                    'name_form'   => $name_form,
-                    'reword_form' => $reword_form,
-                    'max_form'    => $max_form,
-                );
-
-
-                $this->load->view('research/create', $data);
+                $this->user->unset_session();
+                redirect('login');
             }
-        }
 
-        public function do_create() {
-            # load
-            $this->load->library('user');
-            $this->load->library('researches');
-
-            $user_id = $this->user->get_current_user_info()['id'];
-            $name = $this->input->post('name');
-            $reword = $this->input->post('reword');
-#            $max = $this->input->post('max');
-            
-            $this->researches->create_research(array(
-                'create_user_id'     => $user_id,
-                'name'   => $name,
-                'reword' => $reword,
- #               'max'    => $max
-            ));
+            if($this->form_validation->run('research') == TRUE) {
+                #TODO research name UNIQUE check
+                $this->researches->create_research(array(
+                    'create_user_id'     => $this->session->userdata('user_id'),
+                    'name'   => $this->input->post('name'),
+                    'reword' => $this->input->post('reword'),
+                ));
+                redirect('research', 'location');
+            } else {
+                $this->load->view('/research/create');
+            }
         }
 
         public function execute($research_id) {
 
+            $this->load->helper(array('url'));
             $this->load->library('researches');
             $user_id = $this->session->userdata('user_id');
             $this->researches->pay_reword($user_id, $research_id);
+            redirect('/research');
 
         }
 

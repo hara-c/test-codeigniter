@@ -20,7 +20,7 @@ class Researches {
                 $id = $l->id;
                 $lists[] = array(
                     'name'         => $l->name,
-                    'is_done'      => isset($count[$id]) ? $count[$id] : '0', #TEMP
+                    'is_done'      => isset($count[$id]) ? $count[$id] : 'NONE',
                     'reword'       => $l->reword,
                     'created_date' => $l->created_date
                 );

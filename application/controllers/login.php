@@ -2,43 +2,22 @@
     class Login extends CI_Controller {
         public function index(){
 
-            $this->load->helper('form');
+            $this->load->helper(array('form', 'url'));
+            $this->load->library(array('form_validation', 'user'));
 
-                $id_form = array(
-                    'name'      => 'id',
-                    'id'        => 'id',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $pass_form = array(
-                    'name'      => 'password',
-                    'id'        => 'password',
-                    'maxlength' => '30',
-                    'size'      => '30',
-                );
-                $data = array(
-                    'id_form' => $id_form,
-                    'pass_form' => $pass_form
-                );
+            if($this->form_validation->run('login') == TRUE) {
+                $id = $this->input->post('id');
+                $pass = $this->input->post('password');
 
-                $this->load->view('login',$data);
-        }
-
-        public function do_login(){
-            $id = $this->input->post('id');
-            $pass = $this->input->post('password');
-
-            $this->load->library('user');
-
-            if( $this->user->is_valid_and_set_session($id, $pass) ) {
-                # do login
-                $this->load->helper('url');
-                redirect('research', 'location');
+                # TODO :bug: set_value('password') is not working
+                if( $this->user->is_valid_and_set_session($id, $pass) ) {
+                    redirect('research', 'location');
+                } else {
+                    $this->load->view('login', array('login_error_msg'=>'Not Found User'))                     ;
+                }
             } else {
-                # TODO: go login with error_msg
-                echo 'NG';
+                $this->load->view('login');
             }
+
         }
-
-
     }
