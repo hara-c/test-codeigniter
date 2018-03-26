@@ -7,7 +7,7 @@
       #TEMP
         $status = $row['is_done'] ?  'DONE' : anchor('research/execute/'.$row['id'],'DO!');
 
-        echo ("<td>".$row["name"]."</td><td>".$row["create_user_id"]."</td><td>".$row['reword'].'</td><td>i',$status,'</td>')
+        echo ("<td>".$row["name"]."</td><td>".$row["create_user_id"]."</td><td>".$row['reword'].'</td><td>'.$status.'</td>');
 
 ?></tr>
 <?php endforeach; ?>
