@@ -446,7 +446,7 @@ ALTER TABLE ONLY rewords
 --
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT users_user_type_id_fkey FOREIGN KEY (user_type_id) REFERENCES user_types(id);
+    ADD CONSTRAINT users_user_type_id_fkey FOREIGN KEY (user_type_id) REFERENCES user_types(user_type_id);
 
 
 --
