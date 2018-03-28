@@ -2,6 +2,8 @@
 
 class User {
 
+    protected $CI;
+
     # TEMP
     const USER_TYPE = array(
         '1' => 'ADMIN',
@@ -9,14 +11,15 @@ class User {
         '3' => 'MONITOR'
     );
 
-
+    public function __construct(){
+        $this->CI =& get_instance();
+    }
 
     public function is_valid_and_set_session ($id, $pass){
-        $CI =& get_instance();
-        $CI->load->model('Users_model');
-        $user = $CI->Users_model->is_exist($id, $pass);
+        $this->CI->load->model('Users_model');
+        $user = $this->CI->Users_model->is_exist($id, $pass);
         if ($user) {
-            $this->_set_user_session($CI, $user->user_type_id, $user->id);
+            $this->_set_user_session($user->user_type_id, $user->id);
             return 1;
         } else {
             return 0;
@@ -24,12 +27,11 @@ class User {
     }
 
     public function get_current_user_info() {
-        $CI =& get_instance();
-        $id = $CI->session->userdata('user_id');
+        $id = $this->CI->session->userdata('user_id');
         # fetch db
-        $CI->load->model('Users_model');
-        $info = $CI->Users_model->get_user_info_by_id($id);
-        $info['type'] = self::USER_TYPE[$CI->session->userdata('user_type_id')];
+        $this->CI->load->model('Users_model');
+        $info = $this->CI->Users_model->get_user_info_by_id($id);
+        $info['type'] = self::USER_TYPE[$this->CI->session->userdata('user_type_id')];
 
         return $info;
     }
@@ -40,14 +42,13 @@ class User {
     }
 
     public function unset_session(){
-        $CI =& get_instance();
-        $CI->session->sess_destroy();
+        $this->CI->session->sess_destroy();
     }
 
-    private function _set_user_session($CI, $type, $id) {
+    private function _set_user_session($type, $id) {
         #set session
-        $CI->session->set_userdata('user_type_id', $type);
-        $CI->session->set_userdata('user_id', $id);
+        $this->CI->session->set_userdata('user_type_id', $type);
+        $this->CI->session->set_userdata('user_id', $id);
     }
 
 }
