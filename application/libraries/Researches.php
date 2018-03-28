@@ -19,10 +19,11 @@ class Researches {
             foreach($research_lists as $l) {
                 $id = $l->id;
                 $lists[] = array(
+                    'id'           => $l->id,
                     'name'         => $l->name,
-                    'is_done'      => isset($count[$id]) ? $count[$id] : 'NONE',
+                    'is_done'      => isset($count[$id]) ? $count[$id] : '0',
                     'reword'       => $l->reword,
-                    'created_date' => $l->created_date
+                    'created_date' => $l->created_date,
                 );
             }
 
@@ -55,16 +56,27 @@ class Researches {
             }
         }
 
-
-
         return $show_lists;
-        }
+    }
+
+    public function get_research_by_id($id) {
+        $CI =& get_instance();
+        $CI->load->model('researches_model');
+        $research = $CI->researches_model->get_research($id);
+        return $research[0];
+    }
 
     public function create_research($research) {
 
         $CI =& get_instance();
         $CI->load->model('researches_model');
         $CI->researches_model->insert_research($research);
+    }
+
+    public function update_research($id, $research) {
+        $CI =& get_instance();
+        $CI->load->model('researches_model');
+        $CI->researches_model->update_research($id, $research);
     }
 
     public function pay_reword($user_id, $research_id) {

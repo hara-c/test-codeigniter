@@ -36,6 +36,23 @@
             }
         }
 
+        public function lists($id){
+            $this->load->helper(array('url','form'));
+            $this->load->library('researches');
+            if ($this->input->server('REQUEST_METHOD') === 'GET') {
+                $research = $this->researches->get_research_by_id($id);
+                $data['research'] = $research;
+                $this->load->view('/research/update', $data);
+            } elseif ($this->input->server('REQUEST_METHOD') === 'POST') {
+                $updated_info = array(
+                    'name'   => $this->input->post('name'),
+                    'reword' => $this->input->post('reword'),
+                );
+                $research = $this->researches->update_research($id, $updated_info);
+                redirect('research', 'location');
+            }
+        }
+
         public function execute($research_id) {
 
             $this->load->helper(array('url'));
