@@ -16,7 +16,6 @@ class User {
     }
 
     public function is_valid_and_set_session ($id, $pass){
-        $this->CI->load->model('Users_model');
         $user = $this->CI->Users_model->is_exist($id, $pass);
         if ($user) {
             $this->_set_user_session($user->user_type_id, $user->id);
@@ -29,7 +28,6 @@ class User {
     public function get_current_user_info() {
         $id = $this->CI->session->userdata('user_id');
         # fetch db
-        $this->CI->load->model('Users_model');
         $info = $this->CI->Users_model->get_user_info_by_id($id);
         $info['type'] = self::USER_TYPE[$this->CI->session->userdata('user_type_id')];
 

@@ -55,18 +55,6 @@ $autoload['packages'] = array();
 
 $autoload['libraries'] = array('database', 'session', 'form_validation');
 
-# load ./application/libraries/*.php (only file, not dir)
-
-$dir = BASEPATH . './../application/libraries';
-$files = scandir($dir);
-foreach ( $files as $file ) {
-    if($file === '.' || $file ==='..' || !preg_match( "/\.php$/", $file)) {
-        continue;
-    }
-    $name = str_replace('.php', '', $file);
-    $autoload['libraries'][] = $name;
-}
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
@@ -124,5 +112,20 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 
+# load ./application/(libraries|models)/*.php (only file, not dir)
+
+foreach ( array('libraries', 'models') as $type) {
+
+    $dir = BASEPATH . './../application/'. $type;
+    $files = scandir($dir);
+    foreach ( $files as $file ) {
+        if($file === '.' || $file ==='..' || !preg_match( "/\.php$/", $file)) {
+            continue;
+        }
+        $name = str_replace('.php', '', $file);
+        $key = $type === 'models' ? 'model' : $type;
+        $autoload[$key][] = ucfirst($name);
+    }
+}
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
