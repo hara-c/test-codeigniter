@@ -52,8 +52,20 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session');
 
+$autoload['libraries'] = array('database', 'session', 'form_validation');
+
+# load ./application/libraries/*.php (only file, not dir)
+
+$dir = BASEPATH . './../application/libraries';
+$files = scandir($dir);
+foreach ( $files as $file ) {
+    if($file === '.' || $file ==='..' || !preg_match( "/\.php$/", $file)) {
+        continue;
+    }
+    $name = str_replace('.php', '', $file);
+    $autoload['libraries'][] = $name;
+}
 
 /*
 | -------------------------------------------------------------------
@@ -64,7 +76,7 @@ $autoload['libraries'] = array('database', 'session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+$autoload['helper'] = array('url', 'form');
 
 
 /*
