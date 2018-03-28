@@ -33,17 +33,17 @@
 
         public function lists($id){
 
-            if ($this->input->server('REQUEST_METHOD') === 'GET') {
-                $research = $this->researches->get_research_by_id($id);
-                $data['research'] = $research;
-                $this->load->view('/research/update', $data);
-            } elseif ($this->input->server('REQUEST_METHOD') === 'POST') {
-                $updated_info = array(
+            if($this->form_validation->run('research') == TRUE) {
+                 $updated_info = array(
                     'name'   => $this->input->post('name'),
                     'reword' => $this->input->post('reword'),
                 );
                 $research = $this->researches->update_research($id, $updated_info);
                 redirect('research', 'location');
+            } else {
+                $research = $this->researches->get_research_by_id($id);
+                $data['research'] = $research;
+                $this->load->view('/research/update', $data);
             }
         }
 
