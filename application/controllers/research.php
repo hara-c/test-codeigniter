@@ -47,6 +47,17 @@
             }
         }
 
+        public function disable($id) {
+            if ($this->input->server('REQUEST_METHOD') === 'GET') {
+                $research = $this->researches->get_research_by_id($id);
+                $data['research'] = $research;
+                $this->load->view('/research/disable', $data);
+            } elseif ($this->input->server('REQUEST_METHOD') === 'POST') {
+                $this->researches->disable_research_by_id($id);
+                redirect('research', 'location');
+            }
+        }
+
         public function execute($research_id) {
 
             $user_id = $this->session->userdata('user_id');

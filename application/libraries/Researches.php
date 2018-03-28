@@ -80,6 +80,11 @@ class Researches {
         $this->CI->researches_model->update_research($id, $research);
     }
 
+    public function disable_research_by_id($id) {
+        $this->CI->load->model('researches_model');
+        $this->CI->researches_model->update_research($id, array('disable' => 1));
+    }
+
     public function pay_reword($user_id, $research_id) {
         $this->CI->load->model('rewords_model');
         $this->CI->rewords_model->insert_reword($user_id, $research_id);

@@ -10,6 +10,7 @@
             if ($user_id) {
                $this->db->where('create_user_id', $user_id);
             }
+            $this->db->where('disable', 0);
             $query = $this->db->get('researches');
             return $query->result();
         }
@@ -22,6 +23,7 @@
             $lists = array();
             foreach ($query->result() as $row){
                 $lists[] = array(
+                    'created_date' => $row->created_date,
                     'name'   => $row->name,
                     'reword' => $row->reword,
                     'id'     => $row->id,
