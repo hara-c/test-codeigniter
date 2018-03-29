@@ -19,6 +19,7 @@ RUN git checkout docker-test
 # Change DocumentRoot
 
 ENV APACHE_DOCUMENT_ROOT /var/www/apps/test-codeigniter
+ENV APACHE_LOG_DIR /var/log/apache2
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
