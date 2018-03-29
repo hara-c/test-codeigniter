@@ -2,27 +2,29 @@
 
 class Researches {
 
-    public function get_show_lists ($user){
+    protected $CI;
 
-        # load
-        $CI =& get_instance();
-        $CI->load->model('researches_model');
-        $CI->load->model('rewords_model');
+    public function __construct(){
+        $this->CI =& get_instance();
+    }
+
+    public function get_show_lists ($user){
 
         $show_lists = array();
 
         if( !strcmp($user['type'], 'ADMIN') || !strcmp($user['type'], 'CLIENT') ) {
 
             $count = $this->_get_count();
-            $research_lists = $CI->researches_model->get_list(!strcmp($user['type'], 'ADMIN') ? NULL : $user['id']);
+            $research_lists = $this->CI->Researches_model->get_list(!strcmp($user['type'], 'ADMIN') ? NULL : $user['id']);
             $lists = array();
             foreach($research_lists as $l) {
                 $id = $l->id;
                 $lists[] = array(
+                    'id'           => $l->id,
                     'name'         => $l->name,
-                    'is_done'      => isset($count[$id]) ? $count[$id] : 'NONE',
+                    'is_done'      => isset($count[$id]) ? $count[$id] : '0',
                     'reword'       => $l->reword,
-                    'created_date' => $l->created_date
+                    'created_date' => $l->created_date,
                 );
             }
 
@@ -35,8 +37,8 @@ class Researches {
 
         if( !strcmp($user['type'], 'ADMIN') || !strcmp($user['type'], 'MONITOR') ) {
 
-            $research_lists = $CI->researches_model->get_list();
-            $paied_research_lists = $CI->rewords_model->get_paied_research($user['id']);
+            $research_lists = $this->CI->Researches_model->get_list();
+            $paied_research_lists = $this->CI->Rewords_model->get_paied_research($user['id']);
             $lists = array();
             foreach($research_lists as $l) {
                 $lists[] = array(
@@ -55,28 +57,32 @@ class Researches {
             }
         }
 
-
-
         return $show_lists;
-        }
+    }
+
+    public function get_research_by_id($id) {
+        $research = $this->CI->Researches_model->get_research($id);
+        return $research[0];
+    }
 
     public function create_research($research) {
+        $this->CI->Researches_model->insert_research($research);
+    }
 
-        $CI =& get_instance();
-        $CI->load->model('researches_model');
-        $CI->researches_model->insert_research($research);
+    public function update_research($id, $research) {
+        $this->CI->Researches_model->update_research($id, $research);
+    }
+
+    public function disable_research_by_id($id) {
+        $this->CI->Researches_model->update_research($id, array('disable' => 1));
     }
 
     public function pay_reword($user_id, $research_id) {
-        $CI =& get_instance();
-        $CI->load->model('rewords_model');
-        $CI->rewords_model->insert_reword($user_id, $research_id);
+        $this->CI->Rewords_model->insert_reword($user_id, $research_id);
     }
 
     private function _get_count() {
-        $CI =& get_instance();
-        $CI->load->model('rewords_model');
-        $counts = $CI->rewords_model->get_count_by_research_id();
+        $counts = $this->CI->Rewords_model->get_count_by_research_id();
         return $counts;
     }
 

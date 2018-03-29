@@ -52,8 +52,8 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session');
 
+$autoload['libraries'] = array('database', 'session', 'form_validation');
 
 /*
 | -------------------------------------------------------------------
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+$autoload['helper'] = array('url', 'form');
 
 
 /*
@@ -112,5 +112,20 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 
+# load ./application/(libraries|models)/*.php (only file, not dir)
+
+foreach ( array('libraries', 'models') as $type) {
+
+    $dir = BASEPATH . './../application/'. $type;
+    $files = scandir($dir);
+    foreach ( $files as $file ) {
+        if($file === '.' || $file ==='..' || !preg_match( "/\.php$/", $file)) {
+            continue;
+        }
+        $name = str_replace('.php', '', $file);
+        $key = $type === 'models' ? 'model' : $type;
+        $autoload[$key][] = ucfirst($name);
+    }
+}
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

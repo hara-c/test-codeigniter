@@ -2,8 +2,6 @@
     class Research extends CI_Controller {
         public function index(){
 
-            $this->load->helper('url');
-            $this->load->library(array('researches', 'user'));
             $user_info = $this->user->get_current_user_info();
             $lists = $this->researches->get_show_lists($user_info);
             $data['show_lists'] = $lists;
@@ -14,9 +12,6 @@
         }
 
         public function create() {
-
-            $this->load->helper(array('form', 'url'));
-            $this->load->library(array('form_validation', 'user', 'researches'));
 
             if (! $this->user->is_enable_create_user()) {
                 $this->user->unset_session();
@@ -36,10 +31,35 @@
             }
         }
 
+        public function lists($id){
+
+            if($this->form_validation->run('research') == TRUE) {
+                 $updated_info = array(
+                    'name'   => $this->input->post('name'),
+                    'reword' => $this->input->post('reword'),
+                );
+                $research = $this->researches->update_research($id, $updated_info);
+                redirect('research', 'location');
+            } else {
+                $research = $this->researches->get_research_by_id($id);
+                $data['research'] = $research;
+                $this->load->view('/research/update', $data);
+            }
+        }
+
+        public function disable($id) {
+            if ($this->input->server('REQUEST_METHOD') === 'GET') {
+                $research = $this->researches->get_research_by_id($id);
+                $data['research'] = $research;
+                $this->load->view('/research/disable', $data);
+            } elseif ($this->input->server('REQUEST_METHOD') === 'POST') {
+                $this->researches->disable_research_by_id($id);
+                redirect('research', 'location');
+            }
+        }
+
         public function execute($research_id) {
 
-            $this->load->helper(array('url'));
-            $this->load->library('researches');
             $user_id = $this->session->userdata('user_id');
             $this->researches->pay_reword($user_id, $research_id);
             redirect('/research');
