@@ -25,5 +25,8 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
 
-EXPOSE 8000:80
+# mod_rewrite on
+RUN a2enmod rewrite
+
+EXPOSE 80
 
